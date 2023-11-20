@@ -18,8 +18,10 @@ public class MatController : MonoBehaviour
     public Material HittedValidMatMaterial;
 
 
-    public GameObject StartPoint;
-    public GameObject EndPoint;
+    public GameObject BottomLeftPoint;
+    //public GameObject BottomRightPoint;
+    //public GameObject TopLeftPoint;
+    public GameObject TopRightPoint;
 
     public Color MainColor;
     public void ChangeMainColorInController(Color colorInput)
@@ -91,8 +93,10 @@ public class MatController : MonoBehaviour
         RoomSizeX = maxX;
         RoomSizeY = maxZ;
 
-        StartPoint.transform.position = new Vector3(0f, 1f, 0f);
-        EndPoint.transform.position = new Vector3(maxX, 1f, maxZ);
+        BottomLeftPoint.transform.position = new Vector3(0f, 1f, 0f);
+        //BottomRightPoint.transform.position = new Vector3(maxX, 1f, 0f);
+        //TopLeftPoint.transform.position = new Vector3(0f, 1f, maxZ);
+        TopRightPoint.transform.position = new Vector3(maxX, 1f, maxZ);
 
         //Check Parameter Being Good
         if (RoomSizeX <= 0 || RoomSizeY<=0|| MatSize <= 0)
@@ -141,8 +145,8 @@ public class MatController : MonoBehaviour
 
         //Adjust Mat Base on parameter 1. size 2.start location 3.NumberofMat
         //Update the Parater
-        int MatXAmout = (int)Mathf.Ceil((EndPoint.transform.position - StartPoint.transform.position).x / MatSize);
-        int MatYAmout = (int)Mathf.Ceil((EndPoint.transform.position - StartPoint.transform.position).z / MatSize);
+        int MatXAmout = (int)Mathf.Ceil((TopRightPoint.transform.position - BottomLeftPoint.transform.position).x / MatSize);
+        int MatYAmout = (int)Mathf.Ceil((TopRightPoint.transform.position - BottomLeftPoint.transform.position).z / MatSize);
 
         //Detect Mat Size Changed
         if (Mathf.Abs(MatPrefab.transform.localScale.x-MatSize)<0.0001)
@@ -169,7 +173,7 @@ public class MatController : MonoBehaviour
 
                     //Recalulate the position
 
-                    NewMatMap[ix, iy].transform.position = StartPoint.transform.position + new Vector3(ix * MatSize + MatSize / 2, -1 * StartPoint.transform.position.y, iy * MatSize + MatSize / 2);
+                    NewMatMap[ix, iy].transform.position = BottomLeftPoint.transform.position + new Vector3(ix * MatSize + MatSize / 2, -1 * BottomLeftPoint.transform.position.y, iy * MatSize + MatSize / 2);
 
                 }
             }
@@ -220,16 +224,16 @@ public class MatController : MonoBehaviour
 
         //Detect Start Point Changed
 
-        if(Origin_location != StartPoint.transform.position)
+        if(Origin_location != BottomLeftPoint.transform.position)
         {
             for (int ix = 0; ix < NumOfMat[0]; ix++)
             {
                 for (int iy = 0; iy < NumOfMat[1]; iy++)
                 {
-                    MatMap[ix, iy].transform.position = StartPoint.transform.position + new Vector3(ix * MatSize + MatSize / 2, -1 * StartPoint.transform.position.y, iy * MatSize + MatSize / 2);
+                    MatMap[ix, iy].transform.position = BottomLeftPoint.transform.position + new Vector3(ix * MatSize + MatSize / 2, -1 * BottomLeftPoint.transform.position.y, iy * MatSize + MatSize / 2);
                 }
             }
-            Origin_location = StartPoint.transform.position;
+            Origin_location = BottomLeftPoint.transform.position;
         }
 
         //Detect Number of Mat Changed
@@ -255,7 +259,7 @@ public class MatController : MonoBehaviour
                     }
 
                     //Recalulate the position
-                    NewMatMap[ix, iy].transform.position = StartPoint.transform.position + new Vector3(ix * MatSize + MatSize / 2, -1 * StartPoint.transform.position.y, iy * MatSize + MatSize / 2);
+                    NewMatMap[ix, iy].transform.position = BottomLeftPoint.transform.position + new Vector3(ix * MatSize + MatSize / 2, -1 * BottomLeftPoint.transform.position.y, iy * MatSize + MatSize / 2);
                 }
             }
             //Destory the unused mat
